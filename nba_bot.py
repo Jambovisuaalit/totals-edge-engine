@@ -50,13 +50,18 @@ def fetch_live_odds():
             home = game['home_team']
             away = game['away_team']
             line = 0.0
+            
+            # KORJATTU LOOPPI TÄSSÄ
             for book in game['bookmakers']:
-                for m inside in book['markets']: # Typo fix -> book['markets']
+                for m in book['markets']:
                     if m['key'] == 'totals':
                         line = m['outcomes'][0]['point']
                         break
                 if line > 0: break
-            if line > 0: games_list.append({'HomeTeam': home, 'AwayTeam': away, 'MarketLine': line})
+            
+            if line > 0: 
+                games_list.append({'HomeTeam': home, 'AwayTeam': away, 'MarketLine': line})
+        
         return pd.DataFrame(games_list)
     except:
         return pd.DataFrame()
